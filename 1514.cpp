@@ -1,3 +1,4 @@
+// 2.0
 class Solution {
 public:
     typedef pair<double,int> P;

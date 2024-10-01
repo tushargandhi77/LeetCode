@@ -25,7 +25,7 @@ public:
         }
         solve(root->left,palin);
         solve(root->right,palin);
-        palin[root->val]--;
+        palin[root->val]--; // if we take as a refrence then we have to roll back otherwise it take copy automatically rollback this
     }
     int pseudoPalindromicPaths (TreeNode* root) {
         vector<int> palin(10,0);

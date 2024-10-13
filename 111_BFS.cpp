@@ -9,7 +9,7 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  **/
-Hello
+
 class Solution {
 public:
     int minDepth(TreeNode* root) {

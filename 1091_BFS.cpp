@@ -1,4 +1,6 @@
 class Solution {
+
+
 public:
     vector<vector<int>> directions{{0,1},{0,-1},{1,0},{-1,0},{1,1},{-1,1},{1,-1},{-1,-1}};
 

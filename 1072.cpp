@@ -1,5 +1,4 @@
 class Solution {
-
 public:
     int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
         int m =matrix.size();

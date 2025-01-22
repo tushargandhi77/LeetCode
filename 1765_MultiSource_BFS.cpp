@@ -31,7 +31,7 @@ public:
                 int x_ = dir[0] + x;
                 int y_ = dir[1] + y;
 
-                if(x_ >= 0 && x_ < m && y_ >= 0 && y_ < n && visited[x_][y_] == false){
+                if(x_ >= 0 && x_ < m && y_ >= 0 && y_ < n && !visited[x_][y_]){
                     visited[x_][y_] = true;
                     que.push({x_,y_});
                     result[x_][y_] = 1 + result[x][y];

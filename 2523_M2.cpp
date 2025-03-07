@@ -14,7 +14,7 @@ public:
                 int i = 2;
 
                 while(idx*i <= (right)){
-                    isPrime[i*idx] = false;
+                    isPrime[i*idx] = false;  // n/2 + n/3 + n/7 + ....  harmonic serires on  primes very slow related to log(n)
                     i++;
                 }
             }

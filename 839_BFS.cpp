@@ -1,0 +1,54 @@
+class Solution {
+public:
+    bool issimilar(string& s1,string& s2){
+        int diff = 0;
+        if(s1.length() != s2.length()) return false;
+        for(int i = 0;i<s1.length();i++){
+            if(s1[i] != s2[i]) diff++;
+        }
+
+        return diff == 0 || diff == 2;
+    }
+
+    void BFS(int curr,unordered_map<int,vector<int>>& adj,vector<bool>& visited){
+        queue<int> que;
+        que.push(curr);
+        visited[curr] = true;
+
+        while(!que.empty()){
+            int u = que.front();
+            que.pop();
+
+            for(int& v: adj[u]){
+                if(!visited[v]){
+                    que.push(v);
+                    visited[v] = true;
+                }
+            }
+        }
+    }
+    int numSimilarGroups(vector<string>& strs) {
+        unordered_map<int,vector<int>> adj;
+        int n = strs.size();
+
+        for(int i = 0;i<n;i++){
+            for(int j = i+1;j<n;j++){
+                if(issimilar(strs[i],strs[j])){
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+
+        vector<bool> visited(n,false);
+        int result = 0;
+        for(int i = 0;i<n;i++){
+            if(!visited[i]){
+                BFS(i,adj,visited);
+                result++;
+            }
+        }
+
+        return result;
+    }
+};

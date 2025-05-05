@@ -13,5 +13,6 @@ public:
             t[i] = ( 2 * t[i-1] % mod + t[i-3] % mod )%mod;
         }
         return t[n];
+        
     }
 };

@@ -35,3 +35,39 @@ public:
         return result;
     }
 };
+
+
+// Method 2 
+
+class Solution {
+public:
+
+    char DFS(char ch,unordered_map<char,vector<char>>& adj,unordered_set<char>& st){
+        st.insert(ch);
+
+        char newchar = ch;
+        for(char& c: adj[ch]){
+            if(!st.count(c)){
+                newchar = min(newchar,DFS(c,adj,st));
+            }
+        }
+
+        return newchar;
+    }
+    string smallestEquivalentString(string s1, string s2, string baseStr) {
+        unordered_map<char,vector<char>> adj;
+        int n = s1.length();
+        for(int i = 0;i<n;i++){
+            adj[s1[i]].push_back(s2[i]);
+            adj[s2[i]].push_back(s1[i]);
+        }
+        string result = "";
+        for(char& ch: baseStr){
+            unordered_set<char> st;
+            char c = DFS(ch,adj,st);
+            result.push_back(c);
+        }
+
+        return result;
+    }
+};

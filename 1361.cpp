@@ -1,4 +1,4 @@
-
+// Mehtod 1 :- Normal
 class Solution {
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
@@ -53,5 +53,52 @@ public:
             }
         }
         return count == n;
+    }
+};
+
+// Mehod 2 :- DSU
+
+class Solution {
+public:
+    int components;
+    vector<int> parent;
+
+    int find(int x){
+        if(parent[x] == x) return x;
+
+        return parent[x] = find(parent[x]);
+    }
+
+    bool Union(int P,int c){
+        if(find(c) != c) return false;
+
+        if(find(P) == c) return false;
+
+        int c_parent = find(c);
+        int P_parent = find(P);
+
+        parent[c_parent] = P_parent;
+
+        components--;
+
+        return true;
+    }
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
+        parent.resize(n);
+        for(int i = 0;i<n;i++){
+            parent[i] = i;
+        }
+        components = n;
+
+        for(int i = 0;i<n;i++){
+            int leftC = leftChild[i];
+            int rightC = rightChild[i];
+
+            if(leftC != -1 && Union(i,leftC) == false) return false;
+
+            if(rightC != -1 && Union(i,rightC) == false) return false; 
+        }
+
+        return components == 1;
     }
 };

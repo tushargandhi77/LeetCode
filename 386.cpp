@@ -19,3 +19,27 @@ public:
         return result;
     }
 };
+
+
+// Try 2
+
+class Solution {
+public:
+    vector<int> result;
+    void solve(int curr,int n){
+        if(curr > n) return;
+        result.push_back(curr);
+
+        for(int append = 0;append<=9;append++){
+            int newnum = curr*10 + append;
+            if(newnum > n) return;
+            solve(newnum,n);
+        }
+    }
+    vector<int> lexicalOrder(int n) {
+        for(int i = 1;i<=9;i++){
+            solve(i,n);
+        }
+        return result;
+    }
+};

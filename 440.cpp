@@ -1,4 +1,5 @@
 class Solution {
+
 public:
     int count(long curr,long next,int n){
         int currnum = 0;

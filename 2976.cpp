@@ -50,3 +50,62 @@ public:
         return result;
     }
 };
+
+
+// Method 2 : - >
+
+class Solution {
+public:
+    
+    void Dikstra(char& ch,unordered_map<char,vector<pair<char,int>>>& adj,vector<vector<long long>>& result){
+        priority_queue<pair<int,char>,vector<pair<int,char>>,greater<pair<int,char>>> pq;
+
+        result[ch-'a'][ch-'a'] = 0;
+
+        pq.push({0,ch});
+
+
+        while(!pq.empty()){
+            int d = pq.top().first;
+            char node = pq.top().second;
+
+            pq.pop();
+
+            for(auto it: adj[node]){
+                char adjnode = it.first;
+                int dist = it.second;
+
+                if(d + dist < result[ch-'a'][adjnode-'a']){
+                    result[ch-'a'][adjnode-'a'] = d + dist;
+                    pq.push({d+dist,adjnode});
+                }
+            }
+        }
+    }
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        unordered_map<char,vector<pair<char,int>>> adj;
+
+        for(int i = 0;i<original.size();i++){
+            adj[original[i]].push_back({changed[i],cost[i]});
+        }
+
+        vector<vector<long long>> result(26,vector<long long>(26,INT_MAX));
+
+        for(char ch: source){
+            Dikstra(ch,adj,result);
+        }
+
+        long long res = 0LL;
+        for(int i = 0;i<source.length();i++){
+            if(source[i] == target[i]) continue;
+
+            if(result[source[i] - 'a'][target[i] - 'a'] == INT_MAX) return -1;
+
+            res += result[source[i] - 'a'][target[i] - 'a'];
+        }
+
+        return res;
+
+
+    }
+};

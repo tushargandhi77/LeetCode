@@ -109,3 +109,40 @@ public:
 
     }
 };
+
+
+// Method 3 : - Floyd Warshell
+
+
+class Solution {
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        vector<vector<long long>> grid(26,vector<long long>(26,1e9));
+
+        for(int i = 0;i<26;i++){
+            grid[i][i] = 0;
+        }
+        for(int i = 0;i<original.size();i++){
+            grid[original[i]-'a'][changed[i]-'a'] = min(grid[original[i]-'a'][changed[i]-'a'],(long long)cost[i]);
+        }
+
+        // floyed warshell
+        for(int via = 0;via<26;via++){
+            for(int i = 0;i<26;i++){
+                for(int j = 0;j<26;j++){
+                    grid[i][j] = min(grid[i][j],grid[i][via]+grid[via][j]);
+                }
+            }
+        }
+
+        long long result = 0;
+
+        for(int i = 0;i<source.length();i++){
+            if(grid[source[i] - 'a'][target[i] - 'a'] == 1e9) return -1;
+
+            result += grid[source[i] - 'a'][target[i] - 'a'];
+        }
+
+        return result;
+    }
+};

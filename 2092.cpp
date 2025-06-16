@@ -171,3 +171,70 @@ public:
         return result;
     }
 };
+
+// Method 4 :-> heap (shortest path)
+
+class Solution {
+public:
+    typedef pair<int,int> P;
+
+    void DFS(int person,int time,unordered_map<int,vector<P>>& adj,vector<int>& timeToKnow){
+        for(auto& ngbr: adj[person]){
+            int nextperson = ngbr.first;
+            int newtime = ngbr.second;
+
+            if(time <= newtime && timeToKnow[nextperson] > newtime){
+                timeToKnow[nextperson] = newtime;
+                DFS(nextperson,newtime,adj,timeToKnow);
+            }
+        }
+    }
+
+    vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
+        unordered_map<int,vector<P>> adj;
+
+        for(auto& meet: meetings){
+            int p1 = meet[0];
+            int p2 = meet[1];
+            int t = meet[2];
+
+            adj[p1].push_back({p2,t});
+            adj[p2].push_back({p1,t});
+        }
+        vector<int> result;
+
+
+        priority_queue<P,vector<P>,greater<P>> pq;
+        vector<bool> visited(n,false);
+        pq.push({0,0});
+        pq.push({0,firstPerson});
+
+        while(!pq.empty()){
+            auto [time,person] = pq.top(); // O(1)
+            pq.pop(); // O(logn)
+
+            if(visited[person]) continue;
+
+            visited[person] = true;
+
+            for(auto& ngbr : adj[person]){
+                int nextperson = ngbr.first;
+                int meet_time = ngbr.second;
+
+                if(meet_time >= time && !visited[nextperson]){
+                    pq.push({meet_time,nextperson});
+                }
+            }
+
+
+        }
+
+        for(int i = 0;i<n;i++){
+            if(visited[i]){
+                result.push_back(i);
+            }
+        }
+
+        return result;
+    }
+};

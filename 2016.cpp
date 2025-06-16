@@ -84,3 +84,28 @@ public:
         return maxDiff;
     }
 };
+
+
+// Method 4 :-> Super Optimul 
+
+class Solution {
+public:
+    int maximumDifference(vector<int>& nums) {
+        int n = nums.size();
+        int minElement = nums[0];
+
+        int j = 1;
+        int maxDiff = -1;
+        while(j < n){
+            if(nums[j] > minElement){
+                maxDiff = max(maxDiff,nums[j] - minElement);
+            }
+            else{
+                minElement = nums[j];
+            }
+            j++;
+        }
+
+        return maxDiff;
+    }
+};

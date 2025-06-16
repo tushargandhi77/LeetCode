@@ -55,3 +55,32 @@ public:
         return maxDiff;
     }
 };
+
+// Method 3 :- 
+
+class Solution {
+public:
+    int maximumDifference(vector<int>& nums) {
+        int n = nums.size();
+    
+        vector<int> RLMax(n,0);
+
+        for(int i = n-1;i>=0;i--){
+            if(i == n-1){
+                RLMax[i] = nums[i];
+            }
+            else{
+                RLMax[i] = max(nums[i],RLMax[i+1]);
+            }
+        }
+        
+        int maxDiff = -1;
+        for(int i = 0;i<n;i++){
+            if(nums[i] < RLMax[i]){
+                maxDiff = max(maxDiff,RLMax[i]-nums[i]);
+            }
+        }
+
+        return maxDiff;
+    }
+};

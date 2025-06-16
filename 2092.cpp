@@ -153,13 +153,10 @@ public:
             adj[p1].push_back({p2,t});
             adj[p2].push_back({p1,t});
         }
-        queue<P> que;
         vector<int> result;
 
         time[0] = 0;
         time[firstPerson] = 0;
-        que.push({0,0});
-        que.push({firstPerson,0});
 
 
         DFS(0,0,adj,time);

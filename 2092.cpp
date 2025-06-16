@@ -68,3 +68,56 @@ public:
         return result;
     }
 };
+
+
+// Method 2 :-> Direct BFS
+
+class Solution {
+public:
+    typedef pair<int,int> P;
+    vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
+        vector<int> time(n,INT_MAX);
+        unordered_map<int,vector<P>> adj;
+
+        for(auto& meet: meetings){
+            int p1 = meet[0];
+            int p2 = meet[1];
+            int t = meet[2];
+
+            adj[p1].push_back({p2,t});
+            adj[p2].push_back({p1,t});
+        }
+        queue<P> que;
+        vector<int> result;
+
+        time[0] = 0;
+        time[firstPerson] = 0;
+        que.push({0,0});
+        que.push({firstPerson,0});
+
+
+        while(!que.empty()){
+            int person = que.front().first;
+            int T = que.front().second;
+            que.pop();
+
+            for(auto& it: adj[person]){
+                int nextperson = it.first;
+                int t = it.second;
+
+                if(T <= t && time[nextperson] > t){
+                    time[nextperson] = t;
+                    que.push({nextperson,t});
+                }
+            }
+        }
+
+        for(int i = 0;i<n;i++){
+            if(time[i] != INT_MAX){
+                result.push_back(i);
+            }
+        }
+
+        return result;
+    }
+};

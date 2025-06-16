@@ -121,3 +121,56 @@ public:
         return result;
     }
 };
+
+
+// Method 3 :-> DFS
+
+class Solution {
+public:
+    typedef pair<int,int> P;
+
+    void DFS(int person,int time,unordered_map<int,vector<P>>& adj,vector<int>& timeToKnow){
+        for(auto& ngbr: adj[person]){
+            int nextperson = ngbr.first;
+            int newtime = ngbr.second;
+
+            if(time <= newtime && timeToKnow[nextperson] > newtime){
+                timeToKnow[nextperson] = newtime;
+                DFS(nextperson,newtime,adj,timeToKnow);
+            }
+        }
+    }
+
+    vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
+        vector<int> time(n,INT_MAX);
+        unordered_map<int,vector<P>> adj;
+
+        for(auto& meet: meetings){
+            int p1 = meet[0];
+            int p2 = meet[1];
+            int t = meet[2];
+
+            adj[p1].push_back({p2,t});
+            adj[p2].push_back({p1,t});
+        }
+        queue<P> que;
+        vector<int> result;
+
+        time[0] = 0;
+        time[firstPerson] = 0;
+        que.push({0,0});
+        que.push({firstPerson,0});
+
+
+        DFS(0,0,adj,time);
+        DFS(firstPerson,0,adj,time);
+
+        for(int i = 0;i<n;i++){
+            if(time[i] != INT_MAX){
+                result.push_back(i);
+            }
+        }
+
+        return result;
+    }
+};

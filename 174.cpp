@@ -124,3 +124,41 @@ public:
         return solve(0,0,dungeon);
     }
 };
+
+
+// Method 4 :-> Recusion + MEMO
+
+class Solution {
+public:
+    int m,n;
+    int t[201][201];
+    int solve(int i,int j,vector<vector<int>>& dungeon){
+        if(i < 0 || i >= m || j < 0 || j >= n){
+            return INT_MAX;
+        }
+
+        if(i == m-1 && j == n-1){
+            if(dungeon[i][j] <= 0){
+                return abs(dungeon[i][j]) + 1;
+            }
+            else{
+                return 1;
+            }
+        }
+
+        if(t[i][j] != -1) return t[i][j];
+
+        int right = solve(i,j+1,dungeon);
+        int bottom  = solve(i+1,j,dungeon);
+
+        int result = min(right,bottom) - dungeon[i][j];
+
+        return t[i][j] = result <= 0 ? 1 : result;
+    }
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        m = dungeon.size();
+        n = dungeon[0].size();
+        memset(t,-1,sizeof(t));
+        return solve(0,0,dungeon);
+    }
+};

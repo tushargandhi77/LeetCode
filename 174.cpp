@@ -88,3 +88,39 @@ public:
         return result;
     }
 };
+
+// Method 3 :-> Recusion 
+
+class Solution {
+public:
+    int m,n;
+
+    int solve(int i,int j,vector<vector<int>>& dungeon){
+        if(i < 0 || i >= m || j < 0 || j >= n){
+            return INT_MAX;
+        }
+
+        if(i == m-1 && j == n-1){
+            if(dungeon[i][j] <= 0){
+                return abs(dungeon[i][j]) + 1;
+            }
+            else{
+                return 1;
+            }
+        }
+
+
+        int right = solve(i,j+1,dungeon);
+        int bottom  = solve(i+1,j,dungeon);
+
+        int result = min(right,bottom) - dungeon[i][j];
+
+        return result <= 0 ? 1 : result;
+    }
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        m = dungeon.size();
+        n = dungeon[0].size();
+
+        return solve(0,0,dungeon);
+    }
+};

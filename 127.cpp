@@ -6,6 +6,7 @@ public:
 
         queue<string> que;
         que.push(beginWord);
+        visited.insert(beginWord);
 
         int level = 1;
 

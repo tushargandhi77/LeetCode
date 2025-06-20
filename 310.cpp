@@ -56,3 +56,53 @@ public:
         return res;
     }
 };
+
+
+// DFS
+
+class Solution {
+public:
+
+    int DFS(int u,vector<int>& visited,unordered_map<int,vector<int>>& adj){
+       visited[u] = true;
+
+       int max_depth = 0;
+
+       for(int& v: adj[u]){
+        if(!visited[v]){
+            int depth = DFS(v,visited,adj);
+            max_depth = max(depth,max_depth);
+        }
+       }
+
+       return max_depth+1;
+    }
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        vector<int> result(n);
+        unordered_map<int,vector<int>> adj;
+        for(auto& edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        for(int i = 0;i<n;i++){
+            vector<int> visited(n,false);
+            int path = DFS(i,visited,adj);
+            result[i] = path;
+        }
+
+        int min_path = *min_element(begin(result),end(result));
+        vector<int> res;
+
+        for(int i = 0;i<n;i++){
+            if(result[i] == min_path){
+                res.push_back(i);
+            }
+        }
+
+        return res;
+    }
+};

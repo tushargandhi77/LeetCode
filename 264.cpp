@@ -1,28 +1,33 @@
+// Brute Force
+
 class Solution {
 public:
+    int divide(int a,int b){
+        while(a%b == 0){
+            a = a/b;
+        }
+        return a;
+    }
+
+    bool isugly(int n){
+        n = divide(n,2);
+        n = divide(n,3);
+        n = divide(n,5);
+
+        return n == 1;
+    }
     int nthUglyNumber(int n) {
-        vector<int> primes = {2, 3, 5};  // Initialize the primes array
-        vector<int> indices = {0, 0, 0}; // Initialize indices for multiples of 2, 3, 5
-        vector<int> uglyArr(1, 1);       // Initialize the ugly number array with 1
+        int count = 0;
 
-        for (int i = 1; i < n; ++i) {
-            // Calculate the next possible ugly numbers
-            vector<int> next_uglies = {
-                uglyArr[indices[0]] * primes[0],
-                uglyArr[indices[1]] * primes[1],
-                uglyArr[indices[2]] * primes[2]
-            };
-            int min_value = *min_element(next_uglies.begin(), next_uglies.end()); // Find the smallest value
-            uglyArr.push_back(min_value); // Append the smallest value to uglyArr
-
-            // Update indices for primes that generated the current min_value
-            for (int j = 0; j < 3; ++j) {
-                if (next_uglies[j] == min_value) {
-                    ++indices[j];
-                }
+        for(int i = 1;i<1e9;i++){
+            if(isugly(i)){
+                count++;
+                if(count==n) return i;
             }
         }
 
-        return uglyArr[n - 1];
+        return -1;
     }
 };
+
+// Optimul

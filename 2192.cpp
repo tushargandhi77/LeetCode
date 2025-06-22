@@ -66,3 +66,45 @@ public:
         return result;
     }
 };
+
+
+// Method 3 
+
+class Solution {
+public:
+    
+    void DFS(int curr,unordered_map<int,vector<int>>& adj,vector<bool>& visited){
+        visited[curr] = true;
+
+        for(int& v: adj[curr]){
+            if(!visited[v]){
+                DFS(v,adj,visited);
+            }
+        }
+    }
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> result(n);
+        unordered_map<int,vector<int>> adj;
+
+        for(auto& edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[v].push_back(u);
+        }
+
+        for(int i = 0;i<n;i++){
+            vector<bool> visited(n,false);
+            DFS(i,adj,visited);
+
+            for(int j = 0;j<n;j++){
+                if(i == j) continue;
+                if(visited[j]){
+                    result[i].push_back(j);
+                }
+            }
+        }
+
+        return result;
+    }
+};

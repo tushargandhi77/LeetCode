@@ -33,3 +33,36 @@ public:
         return result;
     }
 };
+
+// Method 2 
+
+class Solution {
+public:
+    void DFS(int ancestor,int curr,unordered_map<int,vector<int>>& adj,vector<vector<int>>& result){
+
+        for(int& v: adj[curr]){
+            if(result[v].empty() || result[v].back() != ancestor){
+                result[v].push_back(ancestor);
+                DFS(ancestor,v,adj,result);
+            }
+        }
+    }
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> result(n);
+        unordered_map<int,vector<int>> adj;
+
+        for(auto& edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+        }
+
+        for(int i = 0;i<n;i++){
+            int ansester = i;
+            DFS(ansester,i,adj,result);
+        }
+
+        return result;
+    }
+};

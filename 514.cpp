@@ -29,3 +29,44 @@ public:
         return solve(0,0,ring,key);
     }
 };
+
+// Bottom Up 
+
+class Solution {
+public:
+    int countstep(int rindIdx,int newIdx,int ringlength){
+        int followup = abs(newIdx - rindIdx);
+        int backward = ringlength - followup;
+
+        return min(followup,backward);
+    }
+    
+    int findRotateSteps(string ring, string key) {
+       int n = ring.length();
+       int m = key.length();
+
+       vector<vector<int>> t(n,vector<int>(m+1,0));
+
+       // base case
+       for(int i = 0;i<n;i++){
+            t[i][m] = 0;
+       }
+
+       for(int keyIdx = m-1;keyIdx>=0;keyIdx--){
+        for(int ringIdx = 0;ringIdx < n; ringIdx++){
+            int result = INT_MAX;
+            for(int i = 0;i<n;i++){
+                if(ring[i] == key[keyIdx]){
+                    int total_step = 1 + countstep(ringIdx,i,n) + t[i][keyIdx+1];
+
+                    result = min(result,total_step);
+                }
+            }
+
+            t[ringIdx][keyIdx] = result;
+        }
+       }
+
+       return t[0][0];
+    }
+};

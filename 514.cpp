@@ -70,3 +70,56 @@ public:
        return t[0][0];
     }
 };
+
+// Dikstra Algo
+
+class Solution {
+public:
+    int countsteps(int ringIdx,int idx,int n){
+        int dist = abs(idx - ringIdx);
+        int wraparound = n - dist;
+
+        return min(dist,wraparound);
+    }
+    int findRotateSteps(string ring, string key) {
+        int n = ring.size();
+        int m = key.size();
+        unordered_map<char,vector<int>> adj;
+
+        for(int i = 0;i<n;i++){
+            char ch = ring[i];
+            adj[ch].push_back(i);
+        }
+
+        int totalsteps = 0;
+
+        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>> pq;
+        set<pair<int,int>> visited;
+
+        pq.push({0,0,0});
+
+        while(!pq.empty()){
+            auto vec = pq.top();
+            pq.pop();
+
+            totalsteps = vec[0];
+            int rIdx = vec[1];
+            int kIdx = vec[2];
+            char ch = key[kIdx];
+
+            if(kIdx == m) break;
+
+            if(visited.count({rIdx,kIdx})) continue;
+
+            visited.insert({rIdx,kIdx});
+
+            for(int& nextstep: adj[ch]){
+                int steps = countsteps(rIdx,nextstep,n) + totalsteps;
+                pq.push({steps,nextstep,kIdx+1});
+            }
+
+        }
+
+        return totalsteps + m;
+    }
+};

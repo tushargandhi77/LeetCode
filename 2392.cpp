@@ -70,3 +70,72 @@ public:
         return result;
     }
 };
+
+// BFS kahn's Algo
+
+class Solution {
+public:
+    
+    vector<int> toposort(int n,vector<vector<int>>& edges){
+        unordered_map<int,vector<int>> adj;
+
+        vector<int> indegree(n+1,0);
+        int count = 0;
+
+        for(auto& edge: edges){
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+            indegree[v]++;
+        }
+
+        queue<int> que;
+        vector<int> order;
+
+        for(int i = 1;i<=n;i++){
+            if(indegree[i] == 0){
+                que.push(i);
+                order.push_back(i);
+                count++;
+            }
+        }
+
+        while(!que.empty()){
+            int u = que.front();
+            que.pop();
+
+            for(int& v: adj[u]){
+                indegree[v]--;
+                if(indegree[v] == 0){
+                    que.push(v);
+                    order.push_back(v);
+                    count++;
+                }
+            }
+        }
+
+
+        if(count != n) return {};
+
+        return order;
+    }
+    vector<vector<int>> buildMatrix(int k, vector<vector<int>>& rowConditions, vector<vector<int>>& colConditions) {
+        vector<int> toporow = toposort(k,rowConditions);
+        vector<int> topocol = toposort(k,colConditions);
+
+        if(toporow.empty() || topocol.empty()) return {};
+
+        vector<vector<int>> result(k,vector<int>(k,0));
+
+        for(int i = 0;i<k;i++){
+            for(int j = 0;j<k;j++){
+                if(toporow[i] == topocol[j]){
+                    result[i][j] = toporow[i];
+                }
+            }
+        }
+
+        return result;
+    }
+};

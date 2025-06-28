@@ -1,3 +1,41 @@
+// Priority Queue
+
+class Solution {
+public:
+    vector<int> maxSubsequence(vector<int>& nums, int k) {
+        int n = nums.size();
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+
+        for(int i = 0;i<n;i++){
+            pq.push({nums[i],i});
+            if(pq.size() > k){
+                pq.pop();
+            }
+        }
+
+        vector<int> res(n,1e9);
+
+        while(!pq.empty()){
+            int num = pq.top().first;
+            int idx = pq.top().second;
+            pq.pop();
+
+            res[idx] = num;
+        }
+
+        vector<int> result;
+
+        for(int i = 0;i<n;i++){
+            if(res[i] != 1e9){
+                result.push_back(res[i]);
+            }
+        }
+
+        return result;
+
+    }
+};
+
 // Sorting
 
 class Solution {

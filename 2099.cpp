@@ -1,4 +1,37 @@
+// Sorting
 
+class Solution {
+public:
+    vector<int> maxSubsequence(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<pair<int,int>> arr(n);
+
+        for(int i = 0;i<n;i++){
+            arr[i] = {nums[i],i};
+        }
+
+        sort(begin(arr),end(arr));
+
+        vector<int> result(n,1e9);
+
+        for(int i = n-k;i<n;i++){
+            int idx = arr[i].second;
+            int val = arr[i].first;
+
+            result[idx] = val;
+        }
+
+        vector<int> res;
+
+        for(int i = 0;i<n;i++){
+            if(result[i] != 1e9){
+                res.push_back(result[i]);
+            }
+        }
+
+        return res;
+    }
+};
 
 // BAcktracking
 

@@ -30,3 +30,28 @@ public:
         return result;
     }
 };
+
+
+// Bottom UP
+
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> t(n,vector<int>(1003,0));
+
+        int result = 2;
+        for(int i = 1;i<n;i++){
+            for(int j = 0;j<i;j++){
+                int diff = nums[i] - nums[j] + 501;
+
+                t[i][diff] = max(t[i][diff],t[j][diff] > 0 ? t[j][diff]+1 : 2);
+
+                result = max(result,t[i][diff]);
+
+            }
+        }
+
+        return result;
+    }
+};

@@ -25,3 +25,25 @@ public:
         return result;
     }
 };
+
+
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        sort(begin(folder),end(folder));
+        vector<string> result;
+        result.push_back(folder[0]);
+
+        for(int i = 1;i<folder.size();i++){
+            string currfolder = folder[i];
+            string lastfolder = result.back();
+            lastfolder += "/";
+
+            if(currfolder.find(lastfolder)  != 0){
+                result.push_back(currfolder);
+            }
+        }
+
+        return result;
+    }
+};

@@ -1,6 +1,40 @@
 // LIS Varient
 
 
+
+// TLE 
+
+class Solution {
+public:
+    int t[100001];
+    int solve(int idx,vector<int>& arr, int difference){
+        if(idx >= arr.size()) return 0;
+
+        if(t[idx] != -1) return t[idx];
+
+        int ans = 0;
+        for(int i = idx+1;i<arr.size();i++){
+            if((arr[i] - arr[idx]) == difference){
+                ans = max(ans, 1 + solve(i,arr,difference));
+            }
+        }
+
+        return  t[idx] = ans;
+    }
+    int longestSubsequence(vector<int>& arr, int difference) {
+        int n = arr.size();
+
+        memset(t,-1,sizeof(t));
+
+        int result = INT_MIN;
+        for(int i = 0;i<n;i++){
+            result = max(result,1 + solve(i,arr,difference));
+        }
+
+        return result == INT_MIN ? 0 : result;
+    }
+};
+
 // MLE
 class Solution {
 public:

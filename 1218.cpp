@@ -1,5 +1,29 @@
 // LIS Varient
+// Optimul
 
+class Solution {
+public:
+    int longestSubsequence(vector<int>& arr, int difference) {
+        unordered_map<int,int> mp;
+
+        int result = INT_MIN;
+
+        for(int& num: arr){
+            int prev_num = num - difference;
+
+            if(mp.find(prev_num) != mp.end()){
+                mp[num] = 1 + mp[prev_num];
+            }
+            else{
+                mp[num] = 1;
+            }
+
+            result = max(result,mp[num]);
+        }
+
+        return result;
+    }
+};
 
 
 // TLE 

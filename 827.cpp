@@ -133,3 +133,52 @@ public:
         return maxIslandSize;
     }
 };
+
+
+// Method 2 
+// TLE
+
+class Solution {
+public:
+    int m,n;
+
+    vector<vector<int>> directions{{0,1},{0,-1},{1,0},{-1,0}};
+    int DFS(int r,int c,vector<vector<int>>& grid,vector<vector<bool>>& visited){
+        if(r < 0 || r >= m || c < 0 || c >= n || grid[r][c] == 0 || visited[r][c]){
+            return 0;
+        }
+
+        int answer = 1;
+        visited[r][c] = true;
+
+        for(auto& dir: directions){
+            int r_ = r + dir[0];
+            int c_ = c + dir[1];
+
+            answer +=  DFS(r_,c_,grid,visited);
+        }
+
+        return answer;
+    }
+    int largestIsland(vector<vector<int>>& grid) {
+        m = grid.size();
+        n = grid[0].size();
+
+
+        int max_ans = INT_MIN;
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(grid[i][j] == 0){
+                    vector<vector<bool>> visited(m,vector<bool>(n,false));
+                    grid[i][j] = 1;
+
+                    max_ans = max(DFS(i,j,grid,visited),max_ans);
+                    grid[i][j] = 0;
+                }
+            }
+        }
+
+
+        return max_ans == INT_MIN ? m * n : max_ans;
+    }
+};

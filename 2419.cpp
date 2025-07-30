@@ -23,3 +23,33 @@ public:
         return len;
     }
 };
+
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size();
+
+        int streak = 0;
+        int maxbit = 0;
+        int result = INT_MIN;
+
+        for(int i = 0;i<n;i++){
+            if(nums[i] > maxbit){
+                maxbit = nums[i];
+                streak = 0;
+                result = 0;
+            }
+
+            if(nums[i] == maxbit){
+                streak++;
+            }
+            else{
+                streak = 0;
+            }
+
+            result = max(streak,result);
+        }
+        return result;
+    }
+};

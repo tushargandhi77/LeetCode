@@ -32,3 +32,28 @@ public:
         return result == 0 ? "Tie" : (result > 0 ? "Alice" : "Bob");
     }
 };
+
+// Bottom Up
+
+class Solution {
+public:
+    string stoneGameIII(vector<int>& stone) {
+        int n = stone.size();
+        vector<int> t(n+1);
+
+        for(int i = n-1;i>=0;i--){
+            t[i] = stone[i] - t[i+1];
+
+            if(i+1 < n){
+                t[i] = max(t[i],stone[i] + stone[i+1] - t[i+2]);
+            }
+
+            if(i+2 < n){
+                t[i] = max(t[i], stone[i] + stone[i+1] + stone[i+2] - t[i+3]);
+            }
+
+        }
+
+        return t[0] == 0 ? "Tie" : (t[0] > 0 ? "Alice" : "Bob");
+    }
+};

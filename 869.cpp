@@ -17,3 +17,27 @@ public:
         return false;
     }
 };
+
+
+class Solution {
+public:
+    unordered_set<string> st;
+
+    void buildset(){
+        for(int p = 0;p<=29;p++){
+            string s = to_string(1 << p);
+            sort(begin(s),end(s));
+            st.insert(s);
+        }
+    }
+    bool reorderedPowerOf2(int n) {
+        if(st.empty()){
+            buildset();
+        }
+
+        string s = to_string(n);
+        sort(begin(s),end(s));
+
+        return st.count(s);
+    }
+};

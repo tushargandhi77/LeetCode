@@ -18,7 +18,7 @@ public:
     }
 };
 
-
+// m2
 class Solution {
 public:
     unordered_set<string> st;
@@ -39,5 +39,29 @@ public:
         sort(begin(s),end(s));
 
         return st.count(s);
+    }
+};
+
+// M 3
+class Solution {
+public:
+    vector<int> getVectorCount(int n){
+        vector<int> vec(10,0);
+
+        while(n){
+            vec[n%10]++;
+            n /= 10;
+        }
+
+        return vec;
+    }
+    bool reorderedPowerOf2(int n) {
+        vector<int> input = getVectorCount(n);
+
+        for(int p = 0;p<=29;p++){
+            if(input == getVectorCount(1 << p)) return true;
+        }
+
+        return false;
     }
 };

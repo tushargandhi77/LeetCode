@@ -1,4 +1,5 @@
 class Solution {
+
 public:
     bool solve(string s,string p){
         if(p.length() == 0){

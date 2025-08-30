@@ -50,3 +50,28 @@ public:
         return true;
     }
 };
+
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_set<string> st;
+
+        for(int i = 0;i<9;i++){
+            for(int j = 0;j<9;j++){
+                if(board[i][j] == '.') continue;
+
+                string a = to_string(i) + "_ROW_" + to_string(board[i][j]);
+                string b = to_string(j) + "_COL_" + to_string(board[i][j]);
+                string c = to_string(i/3) + "_MIX_" + to_string(j/3) + "_MIX_" + to_string(board[i][j]);
+
+                if(st.count(a) || st.count(b) || st.count(c)) return false;
+
+                st.insert(a);
+                st.insert(b);
+                st.insert(c);
+            }
+        }
+
+        return true;
+    }
+};

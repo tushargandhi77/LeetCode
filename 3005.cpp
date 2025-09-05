@@ -27,3 +27,26 @@ public:
         return solve(0,steps,arrLen);
     }
 };
+
+// M2
+
+class Solution {
+public:
+    int maxFrequencyElements(vector<int>& nums) {
+        vector<int> freq(101);
+
+        for(int& num: nums){
+            freq[num]++;
+        }   
+
+        int max_freq = *max_element(begin(freq),end(freq));
+
+        int result = 0;
+
+        for(int i = 0;i<101;i++){
+            if(freq[i] == max_freq) result += max_freq;
+        }
+
+        return result;
+    }
+};

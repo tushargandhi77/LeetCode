@@ -90,3 +90,35 @@ public:
 
     }
 };
+
+// Optimal _ PQ
+
+class Solution {
+public:
+    int constrainedSubsetSum(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        vector<int> t = nums;
+
+        int result=nums[0];
+
+        priority_queue<pair<int,int>> pq;
+
+        pq.push({nums[0],0});
+
+        for(int i = 1;i<n;i++){
+            
+            while(!pq.empty() && i - pq.top().second > k){
+                pq.pop();
+            }
+
+            t[i] = max(t[i],nums[i]+pq.top().first);
+            pq.push({t[i],i});
+            result = max(t[i],result);
+
+        }
+
+        return result;
+
+    }
+};

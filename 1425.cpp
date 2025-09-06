@@ -63,3 +63,30 @@ public:
         return result;
     }
 };
+
+// BU - TLE 20/40
+
+class Solution {
+public:
+    int constrainedSubsetSum(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        vector<int> t(n);
+
+        for(int i = 0;i<n;i++){
+            t[i] = nums[i];
+        }
+
+        int result = t[0];
+
+        for(int i = 1;i<n;i++){
+            for(int j = i-1;j>=0 && i-j <=k ;j--){
+                t[i] = max(t[i],nums[i] + t[j]);
+                result = max(t[i],result);
+            }
+        }
+
+        return result;
+
+    }
+};

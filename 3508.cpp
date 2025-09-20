@@ -1,65 +1,53 @@
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
 class Router {
 public:
-    template<class T>
-    using ordered_set = tree<T, null_type, less<T>, rb_tree_tag,    tree_order_statistics_node_update>;
-
-// Change mp to:
-unordered_map<int, ordered_set<pair<int,int>>> mp;
-    queue<vector<int>> que;
-    unordered_set<string> st;
-    int size;
+    queue<string> que;
+    unordered_map<string,vector<int>> mp;
+    unordered_map<int,vector<int>> Dest;
+    int n;
     Router(int memoryLimit) {
-        size = memoryLimit;
+        n = memoryLimit;
     }
     
     bool addPacket(int source, int destination, int timestamp) {
         string key = to_string(source) + "_" + to_string(destination) + "_" + to_string(timestamp);
-        if(st.count(key)) return false;
 
-        if(que.size() == size){
-            vector<int> packet = que.front();
-            string oldkey = to_string(packet[0]) + "_" + to_string(packet[1]) + "_" + to_string(packet[2]);
-            mp[packet[1]].erase({packet[2],packet[0]});
+        if(mp.count(key)) return false;
 
-            st.erase(oldkey);
-            que.pop();
-            que.push({source,destination,timestamp});
-            st.insert(key);
-        }
-        else{
-            que.push({source,destination,timestamp});
-            st.insert(key);
+        if(que.size() == n){
+            forwardPacket();
         }
 
-        mp[destination].insert({timestamp,source});
+        que.push(key);
+        mp[key] = {source,destination,timestamp};
+        Dest[destination].push_back(timestamp);
 
         return true;
+
     }
     
     vector<int> forwardPacket() {
-        vector<int> packet = que.front();  
-        
-        if(packet.empty()) return {};
+        if(que.empty()) return {};
 
-        string oldkey = to_string(packet[0]) + "_" + to_string(packet[1]) + "_" + to_string(packet[2]);
-
-        st.erase(oldkey);
-        mp[packet[1]].erase({packet[2],packet[0]});
-
+        string key = que.front();
         que.pop();
-        return packet;
+
+        vector<int> vec = mp[key];
+        mp.erase(key);
+
+        int dest = vec[1];
+
+        Dest[dest].erase(Dest[dest].begin());
+
+        return vec;
     }
     
     int getCount(int destination, int startTime, int endTime) {
-        auto &s = mp[destination];
-        if(s.empty()) return 0;
+        if(Dest[destination].empty()) return 0;
 
-        int l = s.order_of_key({startTime, INT_MIN});
-        int r = s.order_of_key({endTime+1, INT_MIN});
-        return r-l;
+        int l = lower_bound(Dest[destination].begin(),Dest[destination].end(),startTime) - begin(Dest[destination]);
+        int r = upper_bound(Dest[destination].begin(),Dest[destination].end(),endTime) - begin(Dest[destination]);
+
+        return r - l;
     }
 };
 

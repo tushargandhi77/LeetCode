@@ -28,7 +28,6 @@ public:
         {
             auto it = pq.top();
             pq.pop();
-
             int ht = it[0];
             int x = it[1];
             int y = it[2];

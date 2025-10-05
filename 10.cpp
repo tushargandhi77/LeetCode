@@ -4,7 +4,6 @@ public:
         if(p.length() == 0){
             return s.length() == 0;
         }
-
         bool first_order_matched = false;
 
         if(s.length() > 0 && (p[0] == s[0] || p[0] == '.')){

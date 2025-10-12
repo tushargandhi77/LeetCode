@@ -9,7 +9,6 @@ public:
             else if(tops[i] != val) topsstep++;
             else if(bottoms[i] != val) bottomsstep++;
         }
-
         return min(topsstep,bottomsstep);
     }
     int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {

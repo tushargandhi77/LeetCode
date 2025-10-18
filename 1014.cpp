@@ -9,6 +9,7 @@ public:
             maxi = (values[i] + i) > maxi ? (values[i]+i) : maxi;
             left_max[i] = max(maxi,left_max[i]);
         }
+        
         int max_score = INT_MIN;
 
         for(int j = 1;j<n;j++){

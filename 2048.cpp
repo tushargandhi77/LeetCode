@@ -22,3 +22,44 @@ public:
         return -1;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> digitcount{0,1,2,3,4,5,6,7,8,9};
+
+    int backtrack(int n,int curr,int count){
+        if(count == 0){
+            for(int digit = 1;digit<=9;digit++){
+                if(digitcount[digit] != 0 && digitcount[digit] != digit) return 0;
+            }
+            return curr > n ? curr : 0;
+        }
+
+        int result = 0;
+
+        for(int digit = 1;digit <= 9;digit++){
+            if(digitcount[digit] > 0 && digitcount[digit] <= count){
+                digitcount[digit]--;
+                result = backtrack(n,curr*10+digit,count-1);
+                digitcount[digit]++;
+            }
+            if(result != 0){
+                break;
+            }
+        }
+
+        return result;
+    }
+    int nextBeautifulNumber(int n) {
+        int numdigit = to_string(n).length();
+
+        int result = backtrack(n,0,numdigit);
+
+        if( result == 0){
+            result = backtrack(n,0,numdigit+1);
+        }
+
+        return result;
+    }
+};

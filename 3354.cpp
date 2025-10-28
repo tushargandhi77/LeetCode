@@ -40,3 +40,28 @@ public:
         return result;
     }
 };
+
+
+class Solution {
+public:
+    int countValidSelections(vector<int>& nums) {
+        int total = accumulate(begin(nums),end(nums),0);
+
+        int currsum = 0;
+
+        int result = 0;
+
+        for(int& num: nums){
+            currsum += num;
+
+            if(num == 0){
+                int sum2 = total - currsum;
+
+                if(sum2 == currsum) result += 2;
+                else if(abs(sum2 - currsum) == 1) result++;
+            }
+        }
+
+        return result;
+    }
+};
